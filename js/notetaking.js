@@ -1,3 +1,6 @@
+// Const
+const videoId = new URLSearchParams(window.location.search).get("videoId");
+
 // Loading youtube script
 var tag = document.createElement("script");
 
@@ -8,64 +11,76 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // Creating iframe
 let player;
 function onYouTubeIframeAPIReady() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const url = urlParams.get('videoId');
-    
     player = new YT.Player("player", {
-    height: "390",
-    width: "640",
-    videoId: url,
-    playerVars: {
-    //   controls: 0,
-    //   autoplay: 1,
-      origin: "http://127.0.0.1:8080"
-    //   disablekb: 1,
-    },
-    events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange,
-    },
-  });
+        height: "390",
+        width: "640",
+        videoId: videoId,
+        playerVars: {
+            //   controls: 0,
+            //   autoplay: 1,
+            origin: "http://127.0.0.1:8080",
+            //   disablekb: 1,
+        },
+        events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+        },
+    });
 }
 
 // player.addEventListener('onReady', event => {
 //     event.target.playVideo();
 //     player.playVideo()
 //     console.log('here');
-    
+
 // })
 
+let data = {};
 
+const commands = [
+    {
+        command: "p\n",
+        description: "play",
+        run: () => player.playVideo(),
+    },
+];
 
-const area = document.getElementById('area')
-const notes = document.getElementById('notes')
-area.focus()
+const area = document.getElementById("area");
+const notes = document.getElementById("notes");
+const save = document.getElementById("save");
+area.focus();
 
-let currTime = 0
+let currTime = 0;
 
-area.addEventListener('keyup', e => {
+area.addEventListener("keyup", (e) => {
     if (e.code === "Enter") {
-        p = document.createElement('p')
-        p.textContent = `${currTime}: ${area.value}`
-        notes.insertBefore(p, area)
-        area.value = ""
-        currTime = 0
-        player.playVideo()
-    } else if (player.getPlayerState() === 1) {
-        player.pauseVideo()
-        currTime = Math.floor(player.getCurrentTime())
-    }
-})
+        const cmd = commands.filter((command) => area.value === command.command);
+        if (cmd.length > 0) {
+            cmd[0].run()
+            area.value = ""
+            return
+        }
 
-document.getElementById('play').addEventListener('click', e => {
-    player.playVideo()
-})
+        p = document.createElement("p");
+        p.textContent = `${currTime}: ${area.value}`;
+        notes.insertBefore(p, area);
+        data[currTime] = area.value;
+        area.value = "";
+        currTime = 0;
+        player.playVideo();
+    } else if (player.getPlayerState() === 1) {
+        player.pauseVideo();
+        currTime = Math.floor(player.getCurrentTime());
+    }
+});
+
+save.addEventListener("click", () => {
+    localStorage.setItem(videoId, JSON.stringify(data));
+    window.location.href = "list.html";
+});
 
 function onPlayerReady(event) {
     // event.target.playVideo()
 }
 
-function onPlayerStateChange(event) {
-
-}
-
+function onPlayerStateChange(event) {}
