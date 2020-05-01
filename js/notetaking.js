@@ -43,6 +43,11 @@ const commands = [
         description: "play",
         run: () => player.playVideo(),
     },
+    {
+        command: "\n",
+        description: "play",
+        run: () => player.playVideo(),
+    },
 ];
 
 const area = document.getElementById("area");
