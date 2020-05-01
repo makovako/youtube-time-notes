@@ -79,8 +79,6 @@ save.addEventListener("click", () => {
     window.location.href = "list.html";
 });
 
-function onPlayerReady(event) {
-    // event.target.playVideo()
-}
+function onPlayerReady(event) {}
 
 function onPlayerStateChange(event) {}

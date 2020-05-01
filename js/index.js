@@ -8,11 +8,8 @@ form.addEventListener('submit', e => {
         handleError("Problem with url, no parameters")
         return false
     }
-    console.log({params});
-    
     
     const video = params[1].split('&').filter(param => param.split('=')[0] === 'v')
-    console.log({video});
     
     if (video.length < 1) {
         e.preventDefault()
@@ -21,11 +18,9 @@ form.addEventListener('submit', e => {
     }
     e.target.videoId.value = video[0].split('=')[1]
     e.target.url.disabled = true
-    console.log(e.target);
     return true
 })
 
 const handleError = (error) => {
     console.log(error);
-    
 }
