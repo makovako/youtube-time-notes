@@ -5,8 +5,13 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
-
 ---
+
+## [0.1.1] - 2020-05-01
+
+### Fixed
+
+- wrong version in changelog file
 
 ## [0.1.0] - 2020-05-01
 
@@ -25,6 +30,7 @@ Initial version
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/makovako/youtube-time-notes/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/makovako/youtube-time-notes/compare/v0.1.1...HEAD
 [Released]: https://github.com/makovako/youtube-time-notes/releases
-[0.1.0]: https://github.com/makovako/youtube-time-notes/releases/v0.0.1
+[0.1.1]: https://github.com/makovako/youtube-time-notes/releases/v0.1.1
+[0.1.0]: https://github.com/makovako/youtube-time-notes/releases/v0.1.0
