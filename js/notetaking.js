@@ -72,7 +72,7 @@ const save = document.getElementById("save");
 input_area.focus();
 
 input_area.addEventListener("keyup", (e) => {
-    if (e.code === "Enter") {
+    if (e.keyCode === 13) {
         const cmd = commands.filter((command) => input_area.value === command.command);
         if (cmd.length > 0) {
             cmd[0].run()

@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 - Unified width of all elements
 
+### Fixed
+
+- Key code Enter does not work on android, changed to other enter detection method
+
 ---
 
 ## [0.1.1] - 2020-05-01
