@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
+### Added
+
+- Styling with bootstrap
+- Clicking on timestamp seeks video to given time
+
+### Changed
+
+- Unified width of all elements
+
 ---
 
 ## [0.1.1] - 2020-05-01
