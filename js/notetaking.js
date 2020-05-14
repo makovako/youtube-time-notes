@@ -8,12 +8,19 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+const container = document.querySelector('.container')
+const container_padding_left = window.getComputedStyle(container, null).getPropertyValue('padding-left').slice(0,-2)
+const container_padding_right = window.getComputedStyle(container, null).getPropertyValue('padding-right').slice(0,-2)
+
+const video_width = container.clientWidth - container_padding_left - container_padding_right
+const video_height = Math.floor(video_width * 9 / 16)
+
 // Creating iframe
 let player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player("player", {
-        height: "390",
-        width: "640",
+        height: video_height,
+        width: video_width,
         videoId: videoId,
         playerVars: {
             //   controls: 0,
@@ -35,6 +42,13 @@ function onYouTubeIframeAPIReady() {
 
 // })
 
+function format_current_time(current_time) {
+    let hrs = Math.floor(current_time / 3600).toString();
+    let mins = Math.floor((current_time % 3600) / 60).toString();
+    let secs = Math.floor(~~current_time % 60).toString();
+    return `${hrs.padStart(2,"0")}:${mins.padStart(2,"0")}:${secs.padStart(2,"0")}`;
+}
+
 let data = {};
 
 const commands = [
@@ -50,32 +64,40 @@ const commands = [
     },
 ];
 
-const area = document.getElementById("area");
+const input_area = document.getElementById("input-area");
+input_area.value = ""
+
 const notes = document.getElementById("notes");
 const save = document.getElementById("save");
-area.focus();
+input_area.focus();
 
-let currTime = 0;
-
-area.addEventListener("keyup", (e) => {
+input_area.addEventListener("keyup", (e) => {
     if (e.code === "Enter") {
-        const cmd = commands.filter((command) => area.value === command.command);
+        const cmd = commands.filter((command) => input_area.value === command.command);
         if (cmd.length > 0) {
             cmd[0].run()
-            area.value = ""
+            input_area.value = ""
             return
         }
 
-        p = document.createElement("p");
-        p.textContent = `${currTime}: ${area.value}`;
-        notes.insertBefore(p, area);
-        data[currTime] = area.value;
-        area.value = "";
-        currTime = 0;
+        let currTime = player.getCurrentTime()
+
+        const li = document.createElement("li");
+        li.addEventListener('click', e => {
+            e.preventDefault()
+            player.pauseVideo()
+            player.seekTo(currTime, true)
+            input_area.focus()
+        })
+        currTime = Math.floor(currTime)
+        li.classList.add('list-group-item')
+        li.textContent = `${format_current_time(currTime)}: ${input_area.value}`;
+        notes.append(li)
+        data[currTime] = input_area.value;
+        input_area.value = "";
         player.playVideo();
     } else if (player.getPlayerState() === 1) {
         player.pauseVideo();
-        currTime = Math.floor(player.getCurrentTime());
     }
 });
 
