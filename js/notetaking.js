@@ -59,6 +59,8 @@ function format_current_time(current_time) {
     return `${hrs.padStart(2,"0")}:${mins.padStart(2,"0")}:${secs.padStart(2,"0")}`;
 }
 
+// Load existing data
+
 let data = JSON.parse(localStorage.getItem(videoId))
 
 if (data) {
@@ -66,6 +68,8 @@ if (data) {
         li = createNoteLi(key, value)
         notes.append(li)
     }
+} else {
+    data = {}
 }
 
 // Create custom commands (like enter to play)
@@ -92,7 +96,6 @@ const commands = [
 
 
 input_area.addEventListener("keyup", (e) => {
-    console.log(e.shiftKey);
     if (e.code === "Enter") {
         if (e.shiftKey) {
             // allow new line in note with shift+enter
