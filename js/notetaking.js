@@ -1,5 +1,13 @@
-// Const
+// Video param
 const videoId = new URLSearchParams(window.location.search).get("videoId");
+
+// Elements
+
+const input_area = document.getElementById("input-area");
+input_area.value = ""
+
+const notes = document.getElementById("notes");
+const save = document.getElementById("save");
 
 // Loading youtube script
 var tag = document.createElement("script");
@@ -7,6 +15,8 @@ var tag = document.createElement("script");
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Computing properties
 
 const container = document.querySelector('.container')
 const container_padding_left = window.getComputedStyle(container, null).getPropertyValue('padding-left').slice(0,-2)
@@ -49,8 +59,20 @@ function format_current_time(current_time) {
     return `${hrs.padStart(2,"0")}:${mins.padStart(2,"0")}:${secs.padStart(2,"0")}`;
 }
 
-let data = {};
+// Load existing data
 
+let data = JSON.parse(localStorage.getItem(videoId))
+
+if (data) {
+    for (let [key, value] of Object.entries(data.notes)) {
+        li = createNoteLi(key, value)
+        notes.append(li)
+    }
+} else {
+    data = {}
+}
+
+// Create custom commands (like enter to play)
 const commands = [
     {
         command: "p\n",
@@ -62,17 +84,24 @@ const commands = [
         description: "play",
         run: () => player.playVideo(),
     },
+    {
+        command: "s\n",
+        description: "save",
+        run: () => {
+            localStorage.setItem(videoId, JSON.stringify(data));
+            window.location.href = "list.html";
+        }
+    }
 ];
 
-const input_area = document.getElementById("input-area");
-input_area.value = ""
-
-const notes = document.getElementById("notes");
-const save = document.getElementById("save");
-input_area.focus();
 
 input_area.addEventListener("keyup", (e) => {
-    if (e.keyCode === 13) {
+    if (e.code === "Enter") {
+        if (e.shiftKey) {
+            // allow new line in note with shift+enter
+            return
+        }
+        // Run custom command
         const cmd = commands.filter((command) => input_area.value === command.command);
         if (cmd.length > 0) {
             cmd[0].run()
@@ -80,24 +109,25 @@ input_area.addEventListener("keyup", (e) => {
             return
         }
 
+        // current time works as an id for note
         let currTime = player.getCurrentTime()
-
-        const li = document.createElement("li");
-        li.addEventListener('click', e => {
-            e.preventDefault()
-            player.pauseVideo()
-            player.seekTo(currTime, true)
-            input_area.focus()
-        })
         currTime = Math.floor(currTime)
-        li.classList.add('list-group-item')
-        li.textContent = `${format_current_time(currTime)}: ${input_area.value}`;
+
+        li = createNoteLi(currTime, input_area.value)
         notes.append(li)
-        data[currTime] = input_area.value;
+        data.notes[currTime] = input_area.value;
         input_area.value = "";
         player.playVideo();
     } else if (player.getPlayerState() === 1) {
-        player.pauseVideo();
+        let currTime = player.getCurrentTime()
+        // Allow user to fast-forward/rewind with arrows
+        if (e.code === "ArrowRight") {
+            player.seekTo(currTime + 10, true)
+        }else if (e.code === "ArrowLeft") {
+            player.seekTo(currTime - 10, true)
+        } else {
+            player.pauseVideo();
+        }
     }
 });
 
@@ -106,6 +136,40 @@ save.addEventListener("click", () => {
     window.location.href = "list.html";
 });
 
-function onPlayerReady(event) {}
+function onPlayerReady(event) {
+    const {video_id, title} = event.target.getVideoData()
+    data["id"] = video_id
+    data["title"] = title
+    if (!data.notes) {
+        data["notes"] = {}
+    }
+    input_area.focus()
+}
 
 function onPlayerStateChange(event) {}
+
+function createNoteLi(currTime, noteText) {
+    // Reuse existing note if possible (edit note)
+    let li = document.getElementById(currTime)
+    if (!li) {
+        li = document.createElement("li");
+        li.addEventListener('click', e => {
+            e.preventDefault()
+            player.pauseVideo()
+            player.seekTo(currTime, true)
+            input_area.value = data.notes[currTime]
+            input_area.focus()
+        })
+        li.id = currTime
+        // Show new lines in notes
+        li.setAttribute('style', 'white-space: pre;');
+        li.classList.add('list-group-item')
+        li.classList.add('cursor-pointer')
+        // TODO create two columns and allow click only on one for time
+        // TODO the same for video.js
+        li.title = `Seek video to time ${format_current_time(currTime)} and edit note`
+    }
+
+    li.textContent = `${format_current_time(currTime)}: ${noteText}`;
+    return li
+}

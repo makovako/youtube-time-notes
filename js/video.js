@@ -6,8 +6,12 @@ const list_group = document.createElement('ul')
 list_group.classList.add('list-group-flush')
 list_group.classList.add('list-group')
 
-for (let [key, value] of Object.entries(JSON.parse(notes))) {
+data = JSON.parse(notes)
+
+for (let [key, value] of Object.entries(data.notes)) {
     const li = document.createElement('li')
+    // Show new lines in notes
+    li.setAttribute('style', 'white-space: pre;');
     li.classList.add('list-group-item')
     li.textContent = `${key}: ${value}`
     list_group.append(li)
@@ -25,6 +29,12 @@ main.append(export_button)
 // const exp = document.getElementById('export');
 
 export_button.addEventListener('click', () => {
+    // TODO options to export
+    // - raw text
+    // - json
+    // - markdown
+    // - without timestamps
+    // - with timestamps
     let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(notes)
     var downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute("href", dataStr);

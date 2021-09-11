@@ -5,20 +5,45 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
+---
+
+## [0.1.2] - 2021-09-11
+
+Added new features and changed some behavior. Also changed the format of saved notes. No migration support available from the old one to the new one.
+
+New format:
+
+```JSON
+{
+    "id": "video-id",
+    "title": "video-title",
+    "notes": {
+        "timestamp": "note text"
+    }
+}
+```
+
 ### Added
 
 - Styling with bootstrap
-- Clicking on timestamp seeks video to given time
+- Clicking on timestamp seeks video to given time, change cursor on hover to pointer
+- Editing of notes on notetaking page
+- Notes deletion
+- Save command (s)
+- Multiline note support (Shift+Enter)
+- Left/Right arrow to seek in video
 
 ### Changed
 
 - Unified width of all elements
+- Better URL param parsing
+- Safer element generation in list view
+- Load existing notes if available
+- Format of saved notes (contain id, title, and object of notes, where keys are positions in video in seconds)
 
-### Fixed
+### Deprecated
 
-- Key code Enter does not work on android, changed to other enter detection method
-
----
+- Old format of saved notes (just an object of notes without any other metadata)
 
 ## [0.1.1] - 2020-05-01
 
@@ -43,7 +68,8 @@ Initial version
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/makovako/youtube-time-notes/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/makovako/youtube-time-notes/compare/v0.1.2...HEAD
 [Released]: https://github.com/makovako/youtube-time-notes/releases
+[0.1.2]: https://github.com/makovako/youtube-time-notes/releases/v0.1.2
 [0.1.1]: https://github.com/makovako/youtube-time-notes/releases/v0.1.1
 [0.1.0]: https://github.com/makovako/youtube-time-notes/releases/v0.1.0
