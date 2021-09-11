@@ -6,15 +6,35 @@ const list_group = document.createElement('div')
 list_group.classList.add("list-group")
 
 for (let i = 0; i < localStorage.length; i++) {
+    note = JSON.parse(localStorage.getItem(localStorage.key(i)))
     notes.push(
-        `<a class="list-group-item list-group-item-action" href="video.html?videoId=${localStorage.key(i)}">${localStorage.key(i)}</a>`
+        note
     );
 }
 
 notes.forEach((note) => {
+    const div = document.createElement('div')
+    div.classList.add("list-group-item")
+    div.classList.add("list-group-item-action")
+    div.classList.add("d-flex")
+    div.classList.add("justify-content-between")
+    div.classList.add("align-items-center")
     const a = document.createElement('a')
-    a.innerHTML = note;
-    list_group.append(a)
+    const {id, title} = note
+    a.href = `video.html?videoId=${id}`
+    a.textContent = `${title} (${id})`
+    div.appendChild(a)
+    const btn = document.createElement('button')
+    btn.classList.add("btn")
+    btn.classList.add("btn-danger")
+    btn.textContent = 'x'
+    btn.addEventListener('click', e => {
+        e.preventDefault()
+        localStorage.removeItem(id)
+        location.reload()
+    })
+    div.appendChild(btn)
+    list_group.append(div)
 });
 
 main.append(list_group)
