@@ -71,7 +71,7 @@ main.append(list_group)
 edit_note_form.addEventListener('submit', (e) => {
     e.preventDefault()
     key = e.target.dataset.note_id
-    data.notes[key] = edit_note_input_area.value
+    data.notes[key] = edit_note_input_area.value.trim()
     localStorage.setItem(videoId, JSON.stringify(data));
     location.reload()
 })

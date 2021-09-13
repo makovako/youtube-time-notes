@@ -24,6 +24,11 @@ Added new features and fixed some bugs.
 
 - how the notes are displayed
 
+### Fixed
+
+- added 2 newlines at the end of the note in export, so there is newline between them
+- added trimming of the notes, so no redundant newline at the end and output will be consistent
+
 ### Removed
 
 - unused buttons to change quality (not supported by youtube api) and show controls and commands, used about page instead

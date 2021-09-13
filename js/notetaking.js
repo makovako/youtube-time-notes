@@ -115,9 +115,11 @@ input_area.addEventListener("keyup", (e) => {
         let currTime = player.getCurrentTime()
         currTime = Math.floor(currTime)
 
-        li = createNoteLi(currTime, input_area.value)
+        note_text = input_area.value
+        note_text = note_text.trim()
+        li = createNoteLi(currTime, note_text)
         notes.append(li)
-        data.notes[currTime] = input_area.value;
+        data.notes[currTime] = note_text;
         input_area.value = "";
         player.playVideo();
     } else if (player.getPlayerState() === 1) {
