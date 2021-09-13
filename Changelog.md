@@ -96,8 +96,9 @@ Initial version
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/makovako/youtube-time-notes/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/makovako/youtube-time-notes/compare/v0.1.3...HEAD
 [Released]: https://github.com/makovako/youtube-time-notes/releases
+[0.1.3]: https://github.com/makovako/youtube-time-notes/releases/v0.1.3
 [0.1.2]: https://github.com/makovako/youtube-time-notes/releases/v0.1.2
 [0.1.1]: https://github.com/makovako/youtube-time-notes/releases/v0.1.1
 [0.1.0]: https://github.com/makovako/youtube-time-notes/releases/v0.1.0
