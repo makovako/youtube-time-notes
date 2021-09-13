@@ -203,8 +203,7 @@ function createNoteLi(currTime, noteText) {
     })
 
     const note = document.createElement('p')
-    note.setAttribute('style', 'white-space: pre;');
-    note.setAttribute('style', 'overflow-wrap: break-word;');
+    note.setAttribute('style', 'white-space: pre-wrap; overflow-wrap: break-word;');
     note.classList.add('m-1')
     note.textContent = noteText
 

@@ -28,8 +28,7 @@ for (let [key, value] of Object.entries(data.notes)) {
     timestamp.textContent = format_current_time(key)
     const note = document.createElement('p')
     note.classList.add('m-1')
-    note.setAttribute('style', 'white-space: pre;');
-    note.setAttribute('style', 'overflow-wrap: break-word;');
+    note.setAttribute('style', 'white-space: pre-wrap; overflow-wrap: break-word;');
     note.textContent = value
 
     const edit_btn = document.createElement('button')
