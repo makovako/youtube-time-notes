@@ -27,7 +27,7 @@ notes.forEach((note) => {
     const btn = document.createElement('button')
     btn.classList.add("btn")
     btn.classList.add("btn-danger")
-    btn.textContent = 'x'
+    btn.textContent = "Delete"
     btn.addEventListener('click', e => {
         e.preventDefault()
         localStorage.removeItem(id)

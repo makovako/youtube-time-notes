@@ -7,6 +7,29 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ---
 
+## [0.1.3] - 2021-09-13
+
+Added new features and fixed some bugs.
+
+### Added
+
+- option to change video playback speed
+- option to edit and delete individual notes
+- button to start taking notes again from the note view
+- about page
+- export options in formats: txt, json, md
+- code cleanup and documentation comments
+
+### Changed
+
+- how the notes are displayed
+
+### Removed
+
+- unused buttons to change quality (not supported by youtube api) and show controls and commands, used about page instead
+
+---
+
 ## [0.1.2] - 2021-09-11
 
 Added new features and changed some behavior. Also changed the format of saved notes. No migration support available from the old one to the new one.

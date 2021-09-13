@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/style.css" />
+        <title>List notes - YTN</title>
+        <script
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">Youtube Time Notes</a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/list.html">Notes</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/about.html">
+                                About <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main>
+                <h1>About</h1>
+                <p>This application allows you to write notes while watching youtube video. Go to home page, insert youtube link and start typing.</p>
+                <h2>Controls</h2>
+                <p>Typing <i>Enter</i> into the note taking area starts playing the video. <i>Left</i> and <i>right arrows</i> allow you to seek through the video. When you start typing, the video automatically pauses and you can form your note. If you would like to create multiline note, please use key combination <i>Shift+Enter</i> for creating newline. After you are done with the note for given timestamp, hit <i>Enter</i> and video will continue to play, until you start typing the next note. Your notes will be listed below the note taking area. Clicking on the timestamp moves you to the position in the video and allows you to edit your note. Hit enter at the end of the note to update it. Your notes are not stored until you hit the <i>save</i> button. You have the option to change playing speed with <i>Set playback speed</i> button. You can also type commands into the note taking area. Currently supported commands are <i>p</i> for play (same as enter/empty note) and <i>s</i> for save.</p><p>Please don't click on the video with your mouse, I can't detect that and you can lose some of your notes. Use Enter on empty note taking area as play/pause button. Enter on non empty note taking area registers the note for given timestamp.</p>
+                <h2>Note management</h2>
+                <p>All of your notes are stored in the local storage of your browser. Clearing cache will probably delete them. You can list your notes on the Notes subpage. Then you can view your notes for given video. You can delete all notes in the notes view. You can also edit and delete notes individually. Other options are to start note taking again or to export notes.</p>
+                <h2>Exporting</h2>
+                <p>You can export notes in various formats. The JSON format exports the raw data from the local storage. The plain text format has options to include timestamps. And finally the Markdown format allows options to include timestamps in various forms (as plain text, as list, as headings) and to make the timestamps clickable links to seek the youtube video at given position, when the note was taken.</p>
+            </main>
+        </div>
+    </body>
+</html>
