@@ -138,11 +138,11 @@ export_md_form.addEventListener('submit', (e) => {
         if (timestamps_headings_md.checked) {
             file_content += `# ${timestamp}\n\n`
         }
-        file_content += value + "\n"
+        file_content += value + "\n\n"
     }
     const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(file_content)
     const downloadAnchorNode = document.createElement('a');
-    let filename = filename_text.value
+    let filename = filename_md.value
     if (filename.length === 0) {
         filename = videoId
     }
@@ -162,7 +162,7 @@ export_text_form.addEventListener('submit', (e) => {
         if (insert_link_text.checked) {
             file_content += `${format_current_time(key)}\n\n`
         }
-        file_content += value + "\n"
+        file_content += value + "\n\n"
     }
 
     const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(file_content)
