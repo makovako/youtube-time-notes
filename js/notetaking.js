@@ -8,6 +8,7 @@ input_area.value = ""
 
 const notes = document.getElementById("notes");
 const save = document.getElementById("save");
+const speed_body = document.getElementById("pick-speed-modal-body")
 
 // Loading youtube script
 var tag = document.createElement("script");
@@ -94,6 +95,7 @@ const commands = [
     }
 ];
 
+// Notetaking logic
 
 input_area.addEventListener("keyup", (e) => {
     if (e.code === "Enter") {
@@ -113,9 +115,11 @@ input_area.addEventListener("keyup", (e) => {
         let currTime = player.getCurrentTime()
         currTime = Math.floor(currTime)
 
-        li = createNoteLi(currTime, input_area.value)
+        note_text = input_area.value
+        note_text = note_text.trim()
+        li = createNoteLi(currTime, note_text)
         notes.append(li)
-        data.notes[currTime] = input_area.value;
+        data.notes[currTime] = note_text;
         input_area.value = "";
         player.playVideo();
     } else if (player.getPlayerState() === 1) {
@@ -126,17 +130,36 @@ input_area.addEventListener("keyup", (e) => {
         }else if (e.code === "ArrowLeft") {
             player.seekTo(currTime - 10, true)
         } else {
+            // Any other key means pause video and start typing note
             player.pauseVideo();
         }
     }
 });
+
+// Buttons actions
 
 save.addEventListener("click", () => {
     localStorage.setItem(videoId, JSON.stringify(data));
     window.location.href = "list.html";
 });
 
+// Player events
+
 function onPlayerReady(event) {
+    const speeds = event.target.getAvailablePlaybackRates()
+    speeds.forEach((speed) => {
+        const btn = document.createElement('button')
+        btn.classList.add('btn', 'btn-outline-warning', 'm-1')
+        btn.textContent = speed
+        btn.addEventListener('click', (event) => {
+            event.preventDefault()
+            player.setPlaybackRate(speed)
+        })
+        // Close modal when speed chosen
+        btn.dataset.dismiss = "modal"
+        speed_body.appendChild(btn)
+    })
+
     const {video_id, title} = event.target.getVideoData()
     data["id"] = video_id
     data["title"] = title
@@ -148,28 +171,43 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {}
 
+// Helper functions
+
 function createNoteLi(currTime, noteText) {
     // Reuse existing note if possible (edit note)
     let li = document.getElementById(currTime)
     if (!li) {
         li = document.createElement("li");
-        li.addEventListener('click', e => {
-            e.preventDefault()
-            player.pauseVideo()
-            player.seekTo(currTime, true)
-            input_area.value = data.notes[currTime]
-            input_area.focus()
-        })
         li.id = currTime
-        // Show new lines in notes
-        li.setAttribute('style', 'white-space: pre;');
-        li.classList.add('list-group-item')
-        li.classList.add('cursor-pointer')
-        // TODO create two columns and allow click only on one for time
-        // TODO the same for video.js
-        li.title = `Seek video to time ${format_current_time(currTime)} and edit note`
+        li.classList.add('list-group-item', 'd-flex', 'align-items-center')
     }
 
-    li.textContent = `${format_current_time(currTime)}: ${noteText}`;
+    // Clear note content
+    while (li.firstChild) {
+        li.removeChild(li.lastChild);
+    }
+
+    // Create clickable timestamp
+    const timestamp = document.createElement('a')
+    timestamp.href = "#"
+    timestamp.textContent = format_current_time(currTime)
+    timestamp.classList.add('m-1', 'mr-2', 'p-1')
+    timestamp.title = `Seek video to time ${format_current_time(currTime)} and edit note`
+    timestamp.addEventListener('click', e => {
+        e.preventDefault()
+        player.pauseVideo()
+        player.seekTo(currTime, true)
+        player.pauseVideo()
+        input_area.value = data.notes[currTime]
+        input_area.focus()
+    })
+
+    const note = document.createElement('p')
+    note.setAttribute('style', 'white-space: pre-wrap; overflow-wrap: break-word;');
+    note.classList.add('m-1')
+    note.textContent = noteText
+
+    li.appendChild(timestamp)
+    li.appendChild(note)
     return li
 }

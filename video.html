@@ -49,18 +49,160 @@
                 >
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/"
-                                >Home</a
-                            >
+                            <a class="nav-link" href="/">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/list.html">Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about.html">About</a>
                         </li>
                     </ul>
                 </div>
             </nav>
             <main>
-                <!-- <button id="export">Export</button> -->
+                <button class="btn btn-outline-success m-1" type="button" data-toggle="modal" data-target="#exportModal">Export notes</button>
+                <button class="btn btn-outline-success m-1" id="start-notetaking-btn">Start notetaking</button>
+                <!-- editNoteModal -->
+                <div class="modal fade" id="editNoteModal" tabindex="-1" role="dialog" aria-labelledby="editNoteModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit note</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="edit-note-form">
+                                    <textarea name="" class="form-control" id="edit-note-input-area" ></textarea>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- deleteNoteModal -->
+                <div class="modal fade" id="deleteNoteModal" tabindex="-1" role="dialog" aria-labelledby="deleteNoteModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete note</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="delete-note-form">
+                                    <p>Are you sure you would like to delete this note?</p>
+                                    <p id="delete-note-text"></p>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- exportModal -->
+                <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Export options</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body d-flex flex-wrap">
+                                <ul class="nav nav-tabs" id="exportTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="md-tab" data-toggle="tab" href="#md" role="tab" aria-controls="md" aria-selected="true">Markdown</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="text-tab" data-toggle="tab" href="#text" role="tab" aria-controls="text" aria-selected="false">Plain text</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="json-tab" data-toggle="tab" href="#json" role="tab" aria-controls="json" aria-selected="false">JSON</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="md" role="tabpanel" aria-labelledby="md-tab">
+                                        <form id="export-md-form">
+                                            <div class="form-group">
+                                                <label for="filename-md">Filename</label>
+                                                <input type="text" class="form-control" id="filename-md" aria-describedby="filename-markdown">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="timestamps">Timestamps settings:</label>
+                                                <div class="form-check form-check">
+                                                    <input class="form-check-input" type="radio" name="timestamps" id="no-timestamps-md" value="no-timestamps" checked>
+                                                    <label class="form-check-label" for="no-timestamps-md">No timestamps</label>
+                                                </div>
+                                                <div class="form-check form-check">
+                                                    <input class="form-check-input" type="radio" name="timestamps" id="timestamps-text-md" value="timestamps-text">
+                                                    <label class="form-check-label" for="timestamps-text-md">Timestamps as plain text</label>
+                                                </div>
+                                                <div class="form-check form-check">
+                                                    <input class="form-check-input" type="radio" name="timestamps" id="timestamps-list-md" value="timestamps-list">
+                                                    <label class="form-check-label" for="timestamps-list-md">Timestamps as list</label>
+                                                </div>
+                                                <div class="form-check form-check">
+                                                    <input class="form-check-input" type="radio" name="timestamps" id="timestamps-headings-md" value="timestamps-headings">
+                                                    <label class="form-check-label" for="timestamps-headings-md">Timestamps as headings</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="md-as-link" disabled>
+                                                <label class="form-check-label" for="md-as-link">
+                                                    Format timestamps as links
+                                                </label>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-warning" type="submit">Export</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="text" role="tabpanel" aria-labelledby="text-tab">
+                                        <form id="export-text-form">
+                                            <div class="form-group">
+                                                <label for="filename-text">Filename</label>
+                                                <input type="text" class="form-control" id="filename-text" aria-describedby="filename-text">
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="insert-link-text">
+                                                <label class="form-check-label" for="insert-link-text">
+                                                    Insert timestamps
+                                                </label>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-warning" type="submit">Export</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="tab-pane fade" id="json" role="tabpanel" aria-labelledby="json-tab">
+                                        <form id="export-json-form">
+                                            <div class="form-group">
+                                                <label for="filename-json">Filename</label>
+                                                <input type="text" class="form-control" id="filename-json" aria-describedby="filename-json">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-warning" type="submit">Export</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
         
