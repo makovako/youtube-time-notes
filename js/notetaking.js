@@ -92,6 +92,14 @@ const commands = [
             localStorage.setItem(videoId, JSON.stringify(data));
             window.location.href = "list.html";
         }
+    },
+    {
+        command: "S\n",
+        description: "save",
+        run: () => {
+            localStorage.setItem(videoId, JSON.stringify(data));
+            window.location.href = "list.html";
+        }
     }
 ];
 

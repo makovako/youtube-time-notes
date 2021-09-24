@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ## Added
 
 - option to insert video link into markdown output
+- command capital `S` for save
 
 ## Fixed
 
