@@ -92,13 +92,21 @@ const commands = [
             localStorage.setItem(videoId, JSON.stringify(data));
             window.location.href = "list.html";
         }
+    },
+    {
+        command: "S\n",
+        description: "save",
+        run: () => {
+            localStorage.setItem(videoId, JSON.stringify(data));
+            window.location.href = "list.html";
+        }
     }
 ];
 
 // Notetaking logic
 
 input_area.addEventListener("keyup", (e) => {
-    if (e.code === "Enter") {
+    if (e.key === "Enter") {
         if (e.shiftKey) {
             // allow new line in note with shift+enter
             return
@@ -125,9 +133,9 @@ input_area.addEventListener("keyup", (e) => {
     } else if (player.getPlayerState() === 1) {
         let currTime = player.getCurrentTime()
         // Allow user to fast-forward/rewind with arrows
-        if (e.code === "ArrowRight") {
+        if (e.key === "ArrowRight") {
             player.seekTo(currTime + 10, true)
-        }else if (e.code === "ArrowLeft") {
+        }else if (e.key === "ArrowLeft") {
             player.seekTo(currTime - 10, true)
         } else {
             // Any other key means pause video and start typing note

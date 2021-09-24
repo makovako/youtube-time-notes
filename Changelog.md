@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
+## Added
+
+- option to insert video link into markdown output
+- command capital `S` for save
+
+## Fixed
+
+- mobile keyboard enter handling
+
 ---
 
 ## [0.1.3] - 2021-09-13
