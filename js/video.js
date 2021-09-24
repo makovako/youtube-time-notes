@@ -99,6 +99,7 @@ const timestamps_text_md = document.getElementById('timestamps-text-md')
 const timestamps_list_md = document.getElementById('timestamps-list-md')
 const timestamps_headings_md = document.getElementById('timestamps-headings-md')
 const md_as_link = document.getElementById('md-as-link')
+const md_insert_link = document.getElementById('md-insert-link')
 
 const filename_text = document.getElementById('filename-text')
 const insert_link_text = document.getElementById('insert-link-text')
@@ -138,6 +139,9 @@ export_md_form.addEventListener('submit', (e) => {
             file_content += `# ${timestamp}\n\n`
         }
         file_content += value + "\n\n"
+    }
+    if (md_insert_link.checked) {
+        file_content += `[source](https://www.youtube.com/watch?v=${videoId})\n\n`
     }
     const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(file_content)
     const downloadAnchorNode = document.createElement('a');
